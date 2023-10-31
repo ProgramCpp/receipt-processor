@@ -22,6 +22,9 @@ Refer Open API [documentation](./docs).
 ### examples
 
 
+## future work
+- as more endpoints are added, use [OpenApi code generator](https://github.com/deepmap/oapi-codegen), to generate server boilerplate
+
 
 
 
