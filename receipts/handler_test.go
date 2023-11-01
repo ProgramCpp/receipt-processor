@@ -13,6 +13,7 @@ import (
 	"github.com/programcpp/receipt-processor/db"
 	"github.com/programcpp/receipt-processor/receipts"
 	"github.com/stretchr/testify/assert"
+	"github.com/tidwall/gjson"
 )
 
 func TestCreateReceiptSuccess(t *testing.T) {
@@ -41,11 +42,8 @@ func TestCreateReceiptSuccess(t *testing.T) {
 	resp.Body.Close()
 	assert.NoError(t, err)
 
-	createRes := receipts.CreateResponse{}
-	err = json.Unmarshal(respBody, &createRes)
-	assert.NoError(t, err)
-
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
-	_, err = uuid.Parse(createRes.Id)
+	assert.True(t, json.Valid(respBody))
+	_, err = uuid.Parse(gjson.Get(string(respBody), "id").String())
 	assert.NoError(t, err)
 }

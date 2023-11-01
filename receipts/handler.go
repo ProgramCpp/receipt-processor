@@ -17,10 +17,6 @@ func NewHandler(d *db.MemDb) Handler {
 	return Handler{d}
 }
 
-type CreateResponse struct {
-	Id string `json:"id"`
-}
-
 func (h Handler) Create(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -36,5 +32,5 @@ func (h Handler) Create(w http.ResponseWriter, r *http.Request) {
 
 	id := h.database.Insert(receipt)
 
-	w.Write([]byte(fmt.Sprintf("{\"id\":\"%s\"}", id)))
+	w.Write([]byte(fmt.Sprintf("{\"id\":\"%s\"}", id))) // status code is set sutomatically
 }

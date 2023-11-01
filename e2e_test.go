@@ -8,7 +8,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
+	"github.com/tidwall/gjson"
 )
 
 func TestCreateReceiptsSuccess(t *testing.T){
@@ -37,7 +39,8 @@ func TestCreateReceiptsSuccess(t *testing.T){
 
 	assert.Equal(t, http.StatusOK, res.StatusCode)
 	assert.True(t, json.Valid(resBody))
-	assert.Contains(t, string(resBody), `"id"`)
+	_, err = uuid.Parse(gjson.Get(string(resBody), "id").String())
+	assert.NoError(t, err)
 }
 
 func TestCreateReceiptsFailure_InvalidMethod(t *testing.T){

@@ -7,7 +7,8 @@ import (
 )
 
 /*
-type to support custom time format json codec
+type to support custom time format json codec. the json value is in string format.
+format: \"15:04\"
 */
 
 const TIME_FORMAT = "15:04"

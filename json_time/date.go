@@ -7,7 +7,8 @@ import (
 )
 
 /*
-type to support custom date format json codec
+type to support custom date format json codec. the json value is in string format.
+format: \"2006-01-02\"
 */
 
 const DATE_FORMAT = time.DateOnly
