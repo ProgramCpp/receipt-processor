@@ -1,10 +1,11 @@
-package handlers_test
+package receipts_test
 
 import (
 	"encoding/json"
 	"testing"
 
-	"github.com/programcpp/receipt-processor/handlers"
+	"github.com/programcpp/receipt-processor/receipts"
+	"github.com/programcpp/receipt-processor/test_utils"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -22,14 +23,15 @@ func TestReceiptJsonCodec(t *testing.T) {
 		"total": "10.50"
 	}`
 
-	receipt := handlers.Receipt{}
+	receipt := receipts.Receipt{}
 	err := json.Unmarshal([]byte(receiptStr), &receipt)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "abc", receipt.Retailer)
-	assert.Equal(t, "2023-11-01", receipt.PurchaseDate)
-	assert.Equal(t, "23:30", receipt.PurchaseTime)
+	assert.Equal(t, test_utils.GetDate("2023-11-01"), receipt.PurchaseDate)
+	assert.Equal(t, test_utils.GetTime("23:30"), receipt.PurchaseTime)
 	assert.Equal(t, 1, len(receipt.Items))
 	assert.Equal(t, "item 1 des", receipt.Items[0].ShortDescription)
-	assert.Equal(t, "10.50", receipt.Items[0].Price)
+	assert.Equal(t, float32(10.50), receipt.Items[0].Price)
+	assert.Equal(t, float32(10.50), receipt.Total)
 }

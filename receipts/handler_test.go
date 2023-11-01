@@ -1,4 +1,4 @@
-package handlers_test
+package receipts_test
 
 import (
 	"bytes"
@@ -7,7 +7,7 @@ import (
 
 	"testing"
 
-	"github.com/programcpp/receipt-processor/handlers"
+	"github.com/programcpp/receipt-processor/receipts"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -27,7 +27,7 @@ func TestCreateReceiptSuccess(t *testing.T) {
 
 	req := httptest.NewRequest("POST", "/receipts/process", bytes.NewBufferString(reqStr))
 	w := httptest.NewRecorder()
-	handlers.CreateReceipts(w, req)
+	receipts.Create(w, req)
 	resp := w.Result()
 
 	assert.Equal(t, http.StatusOK, resp.StatusCode)

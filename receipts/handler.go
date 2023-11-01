@@ -1,4 +1,4 @@
-package handlers
+package receipts
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func CreateReceipts(w http.ResponseWriter,r *http.Request){
+func Create(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -18,5 +18,6 @@ func CreateReceipts(w http.ResponseWriter,r *http.Request){
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+
 	w.WriteHeader(http.StatusOK)
 }

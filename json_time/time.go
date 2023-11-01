@@ -1,6 +1,10 @@
 package json_time
 
-import "time"
+import (
+	"encoding/json"
+	"fmt"
+	"time"
+)
 
 /*
 type to support custom time format json codec
@@ -13,7 +17,13 @@ type Time struct {
 }
 
 func (t *Time) UnmarshalJSON(b []byte) error {
-	parsed, err := time.Parse(TIME_FORMAT, string(b))
+	var timeStr string
+	err := json.Unmarshal(b, &timeStr)
+	if err != nil {
+		return nil
+	}
+	
+	parsed, err := time.Parse(TIME_FORMAT, timeStr)
 	if err != nil {
 		return err
 	}
@@ -24,6 +34,6 @@ func (t *Time) UnmarshalJSON(b []byte) error {
 
 
 func (t *Time) MarshalJSON() ([]byte, error) {
-	s := t.Format(TIME_FORMAT)
+	s := fmt.Sprintf("\"%s\"",t.Format(TIME_FORMAT))
 	return []byte(s), nil
 }

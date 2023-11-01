@@ -1,6 +1,8 @@
 package json_time
 
 import (
+	"encoding/json"
+	"fmt"
 	"time"
 )
 
@@ -15,7 +17,12 @@ type Date struct {
 }
 
 func (d *Date) UnmarshalJSON(b []byte) error {
-	parsed, err := time.Parse(DATE_FORMAT, string(b))
+	var dateStr string 
+	err := json.Unmarshal(b, &dateStr)
+	if err != nil {
+		return nil
+	}
+	parsed, err := time.Parse(DATE_FORMAT, dateStr)
 	if err != nil {
 		return err
 	}
@@ -26,6 +33,6 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 
 
 func (d *Date) MarshalJSON() ([]byte, error) {
-	s := d.Format(DATE_FORMAT)
+	s := fmt.Sprintf("\"%s\"",d.Format(DATE_FORMAT))
 	return []byte(s), nil
 }
