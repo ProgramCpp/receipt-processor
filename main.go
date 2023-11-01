@@ -4,11 +4,12 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/programcpp/receipt-processor/db"
 	"github.com/programcpp/receipt-processor/receipts"
 )
 
-func main(){
+func main() {
 	mux := newServer()
 
 	log.Println("listening on port 1201...")
@@ -16,12 +17,12 @@ func main(){
 }
 
 func newServer() http.Handler {
-	mux := http.NewServeMux()
+	router := mux.NewRouter()
 
-	d :=  db.NewMemDb()
+	d := db.NewMemDb()
 	handler := receipts.NewHandler(d)
 	// init api handlers
-	mux.HandleFunc("/receipts/process", handler.Create)// TODO: add http method
+	router.HandleFunc("/receipts/process", handler.Create).Methods("POST")
 
-	return mux
+	return router
 }

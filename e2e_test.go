@@ -12,8 +12,8 @@ import (
 )
 
 func TestCreateReceiptsSuccess(t *testing.T){
-	mux := newServer()
-	server := httptest.NewServer(mux)
+	router := newServer()
+	server := httptest.NewServer(router)
 	defer server.Close()
 	
 	reqStr := `{
@@ -38,4 +38,30 @@ func TestCreateReceiptsSuccess(t *testing.T){
 	assert.Equal(t, http.StatusOK, res.StatusCode)
 	assert.True(t, json.Valid(resBody))
 	assert.Contains(t, string(resBody), `"id"`)
+}
+
+func TestCreateReceiptsFailure_InvalidMethod(t *testing.T){
+	router := newServer()
+	server := httptest.NewServer(router)
+	defer server.Close()
+
+	req, err := http.NewRequest("GET", server.URL, nil)
+	assert.NoError(t, err)
+	res, err := server.Client().Do(req)
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusNotFound, res.StatusCode)
+
+
+	req, err = http.NewRequest("PUT", server.URL, nil)
+	assert.NoError(t, err)
+	res, err = server.Client().Do(req)
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusNotFound, res.StatusCode)
+
+
+	req, err = http.NewRequest("PATCH", server.URL, nil)
+	assert.NoError(t, err)
+	res, err = server.Client().Do(req)
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusNotFound, res.StatusCode)
 }
