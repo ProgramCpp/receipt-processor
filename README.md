@@ -11,6 +11,10 @@ A webserver that accepts receipts and computes reward points.
 
 go build -o ./build/
 
+## Test
+
+go test ./...
+
 ## run
 
 ./build/receipt-processor
