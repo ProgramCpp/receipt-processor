@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -29,5 +31,11 @@ func TestCreateReceiptsSuccess(t *testing.T){
 	res, err := http.Post(server.URL + "/receipts/process", "application/json", bytes.NewBufferString(reqStr))
 	assert.NoError(t, err)
 
+	resBody, err := io.ReadAll(res.Body)
+	res.Body.Close()
+	assert.NoError(t, err)
+
 	assert.Equal(t, http.StatusOK, res.StatusCode)
+	assert.True(t, json.Valid(resBody))
+	assert.Contains(t, string(resBody), `"id"`)
 }

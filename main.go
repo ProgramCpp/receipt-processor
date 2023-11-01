@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/programcpp/receipt-processor/db"
 	"github.com/programcpp/receipt-processor/receipts"
 )
 
@@ -16,9 +17,11 @@ func main(){
 
 func newServer() http.Handler {
 	mux := http.NewServeMux()
-	
+
+	d :=  db.NewMemDb()
+	handler := receipts.NewHandler(d)
 	// init api handlers
-	mux.HandleFunc("/receipts/process", receipts.Create)// TODO: add http method
+	mux.HandleFunc("/receipts/process", handler.Create)// TODO: add http method
 
 	return mux
 }
