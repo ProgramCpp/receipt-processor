@@ -132,3 +132,4 @@ Breakdown:
 - error handling
 - logging
 - unit tests for rules engine
+- bug: amount values must have exactly 2 decimal places only

@@ -29,6 +29,7 @@ func (h Handler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: validate request before unmarshaling
+	// amount values must have exactly 2 decimal places only
 
 	receipt := receipts.Receipt{}
 	err = json.Unmarshal(body, &receipt)
