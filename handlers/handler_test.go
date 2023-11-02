@@ -1,4 +1,4 @@
-package receipts_test
+package handlers_test
 
 import (
 	"bytes"
@@ -11,6 +11,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/programcpp/receipt-processor/mocks"
+	"github.com/programcpp/receipt-processor/handlers"
 	"github.com/programcpp/receipt-processor/receipts"
 	"github.com/programcpp/receipt-processor/test_utils"
 	"github.com/stretchr/testify/assert"
@@ -19,7 +20,7 @@ import (
 
 func TestCreateReceiptSuccess(t *testing.T) {
 	mockDb := mocks.NewDb(t)
-	handler := receipts.NewHandler(mockDb)
+	handler := handlers.NewHandler(mockDb)
 
 	reqStr := `{
 		"retailer": "abc",
@@ -66,7 +67,7 @@ func TestCreateReceiptSuccess(t *testing.T) {
 
 func TestCreateReceiptFailureOnBadPayload(t *testing.T) {
 	mockDb := mocks.NewDb(t)
-	handler := receipts.NewHandler(mockDb)
+	handler := handlers.NewHandler(mockDb)
 
 	reqStr := `{
 	}`

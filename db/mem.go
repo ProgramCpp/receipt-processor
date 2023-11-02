@@ -14,10 +14,15 @@ func NewMemDb() *MemDb {
 	}
 }
 
-func (m *MemDb)Insert(i interface{}) string{
+func (m *MemDb)Put(i interface{}) string{
 	pk := uuid.New().String()
 
 	m.store[pk] = i
 
 	return pk
+}
+
+func (m *MemDb)Get(k string) (interface{}, bool){
+	v, found := m.store[k]
+	return v, found
 }

@@ -1,5 +1,6 @@
 package db
 
 type Db interface {
-	Insert(interface{})string
+	Put(interface{}) string
+	Get(string) (interface{}, bool)
 }

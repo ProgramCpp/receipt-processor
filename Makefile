@@ -1,3 +1,5 @@
+.PHONY: mocks
+
 all: mocks build test
 
 install-dep:

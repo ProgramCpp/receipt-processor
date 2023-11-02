@@ -9,4 +9,4 @@ docker run -p 1200:8080 -e SWAGGER_JSON=/api.yml -v /<absolute_path>/api.yml:/ap
 
 ## usage
 
-swagger UI is hosted [here](httlp://localhost:1200/).
+swagger UI is hosted [here](http://localhost:1200/).
