@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestReceiptJsonCodec(t *testing.T) {
+func TestReceiptJsonCodecSuccess(t *testing.T) {
 	receiptStr := `{
 		"retailer": "abc",
 		"purchaseDate": "2023-11-01",
