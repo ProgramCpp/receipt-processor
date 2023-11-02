@@ -13,7 +13,7 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-func TestCreateReceiptsSuccess(t *testing.T){
+func TestCreateReceiptSuccess(t *testing.T){
 	router := newServer()
 	server := httptest.NewServer(router)
 	defer server.Close()
@@ -45,7 +45,7 @@ func TestCreateReceiptsSuccess(t *testing.T){
 	assert.NoError(t, err)
 }
 
-func TestCreateReceiptsFailure_InvalidMethod(t *testing.T){
+func TestCreateReceiptFailure_InvalidMethod(t *testing.T){
 	router := newServer()
 	server := httptest.NewServer(router)
 	defer server.Close()
@@ -69,4 +69,27 @@ func TestCreateReceiptsFailure_InvalidMethod(t *testing.T){
 	res, err = server.Client().Do(req)
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusNotFound, res.StatusCode)
+}
+
+func TestCreateReceiptFailureInvalidReceipt(t *testing.T){
+	router := newServer()
+	server := httptest.NewServer(router)
+	defer server.Close()
+	
+	reqStr := `{
+		"retailer": "abc (*&^())",
+		"purchaseDate": "2023-11-01",
+		"purchaseTime": "23:30",
+		"items": [
+		  {
+			"shortDescription": "item 1 des",
+			"price": "10.50"
+		  }
+		],
+		"total": "10.50"
+	}`
+	res, err := http.Post(server.URL + "/receipts/process", "application/json", bytes.NewBufferString(reqStr))
+	assert.NoError(t, err)
+
+	assert.Equal(t, http.StatusBadRequest, res.StatusCode)
 }
