@@ -5,7 +5,7 @@ get your rewards, for your receipts!
 A webserver that accepts receipts and computes reward points.
 
 ## specification
-the rules for awarding points to receipts are [here](./spec.md)
+the rules for awarding points to receipts are [here](./specification.md)
 
 ## pre-requisites
 - go 1.20+
@@ -16,7 +16,7 @@ make build
 ```
 
 ## Test
-- install mockery
+- to add additional mocks, install mockery
 ```
 make install-dep
 make mocks
@@ -37,6 +37,15 @@ make test
 Refer Open API [documentation](./docs).
 
 ### examples
+#### example 1
+```
+$ curl -X POST http://localhost:1201/receipts/process \
+   -H "Content-Type: application/json" \
+   -d '<request-body>'
+
+{"id":"75ff6a62-4d86-4e4f-80db-7c2a4e733388"}
+```
+request body:
 ```json
 {
   "retailer": "Target",
@@ -63,6 +72,10 @@ Refer Open API [documentation](./docs).
   "total": "35.35"
 }
 ```
+```
+$ curl http://localhost:1201/receipts/75ff6a62-4d86-4e4f-80db-7c2a4e733388/points
+{"points":"28"}
+```
 ```text
 Total Points: 28
 Breakdown:
@@ -77,7 +90,7 @@ Breakdown:
   = 28 points
 ```
 
-----
+example 2
 
 ```json
 {
@@ -115,5 +128,7 @@ Breakdown:
   = 109 points
 ```
 
-
-
+## backlog
+- error handling
+- logging
+- unit tests for rules engine

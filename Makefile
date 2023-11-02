@@ -1,4 +1,4 @@
-.PHONY: mocks
+.PHONY: mocks build
 
 all: mocks build test
 
