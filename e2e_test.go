@@ -39,6 +39,8 @@ func TestCreateReceiptsSuccess(t *testing.T){
 
 	assert.Equal(t, http.StatusOK, res.StatusCode)
 	assert.True(t, json.Valid(resBody))
+	id := string(resBody)
+	_ = id
 	_, err = uuid.Parse(gjson.Get(string(resBody), "id").String())
 	assert.NoError(t, err)
 }

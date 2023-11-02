@@ -63,3 +63,18 @@ func TestCreateReceiptSuccess(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, mockResId, resId)
 }
+
+func TestCreateReceiptFailureOnBadPayload(t *testing.T) {
+	mockDb := mocks.NewDb(t)
+	handler := receipts.NewHandler(mockDb)
+
+	reqStr := `{
+	}`
+	req := httptest.NewRequest("POST", "/receipts/process", bytes.NewBufferString(reqStr))
+	w := httptest.NewRecorder()
+
+	handler.Create(w, req)
+	resp := w.Result()
+
+	assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
+}

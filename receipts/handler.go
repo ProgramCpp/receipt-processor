@@ -30,6 +30,11 @@ func (h Handler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !receipt.IsValid(){
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	id := h.database.Insert(receipt)
 
 	// response is simple - for now - which can be handcoded into json
