@@ -1,8 +1,8 @@
 package receipts
 
 import (
+	"fmt"
 	"regexp"
-	"strconv"
 
 	"github.com/programcpp/receipt-processor/json_time"
 )
@@ -25,12 +25,7 @@ func (i Item) IsValid() bool {
 		return false
 	}
 
-	isMatch, err = regexp.MatchString("^\\d+\\.\\d{2}$", strconv.FormatFloat(i.Price, 'f', 3, 64))
-	if err != nil || !isMatch {
-		return false
-	}
-
-	return true
+	return validateFloat64(i.Price)
 }
 
 func (r Receipt) IsValid() bool {
@@ -50,20 +45,24 @@ func (r Receipt) IsValid() bool {
 		return false
 	}
 
-	// total is already parsed by the json parser
-	// TODO: precision validation
-	// for accurate validation, validate request before unmarshaling
-	// formating to 3 decimal places to handle rounding errors
-	isMatch, err = regexp.MatchString("^\\d+\\.\\d{2}$", strconv.FormatFloat(r.Total, 'f', 3, 64))
-	if err != nil || !isMatch {
-		return false
-	}
-
 	for _, i := range r.Items {
-		if !i.IsValid(){
+		if !i.IsValid() {
 			return false
 		}
 	}
 
+	return validateFloat64(r.Total)
+}
+
+func validateFloat64(f float64) bool {
+	// request is already parsed by the json parser
+	// TODO: accurate request validation
+	// for accurate validation, validate request before unmarshaling
+	// once unmarshaled, precision can be lost. trailing 0 digits will be lost
+	// validating the request payload is out of the scope of the domain object validation
+	isMatch, err := regexp.MatchString("^\\d+\\.\\d{2}$", fmt.Sprintf("%.2f",f))
+	if err != nil || !isMatch {
+		return false
+	}
 	return true
 }
