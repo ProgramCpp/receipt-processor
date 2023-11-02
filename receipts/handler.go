@@ -10,10 +10,10 @@ import (
 )
 
 type Handler struct {
-	database *db.MemDb
+	database db.Db
 }
 
-func NewHandler(d *db.MemDb) Handler {
+func NewHandler(d db.Db) Handler {
 	return Handler{d}
 }
 
@@ -32,5 +32,6 @@ func (h Handler) Create(w http.ResponseWriter, r *http.Request) {
 
 	id := h.database.Insert(receipt)
 
+	// response is simple - for now - which can be handcoded into json
 	w.Write([]byte(fmt.Sprintf("{\"id\":\"%s\"}", id))) // status code is set sutomatically
 }

@@ -10,13 +10,17 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/programcpp/receipt-processor/db"
+	"github.com/programcpp/receipt-processor/mocks"
 	"github.com/programcpp/receipt-processor/receipts"
+	"github.com/programcpp/receipt-processor/test_utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/tidwall/gjson"
 )
 
 func TestCreateReceiptSuccess(t *testing.T) {
+	mockDb := mocks.NewDb(t)
+	handler := receipts.NewHandler(mockDb)
+
 	reqStr := `{
 		"retailer": "abc",
 		"purchaseDate": "2023-11-01",
@@ -29,12 +33,22 @@ func TestCreateReceiptSuccess(t *testing.T) {
 		],
 		"total": "10.50"
 	}`
-
-	d := db.NewMemDb()
-	handler := receipts.NewHandler(d)
-
 	req := httptest.NewRequest("POST", "/receipts/process", bytes.NewBufferString(reqStr))
 	w := httptest.NewRecorder()
+
+	mockResId := uuid.New().String()
+	mockDb.On("Insert", receipts.Receipt{
+		Retailer:     "abc",
+		PurchaseDate: test_utils.GetDate("2023-11-01"),
+		PurchaseTime: test_utils.GetTime("23:30"),
+		Items: []receipts.Item{
+			{
+				ShortDescription: "item 1 des",
+				Price:            10.50,
+			},
+		},
+		Total: 10.50,
+	}).Return(mockResId)
 	handler.Create(w, req)
 	resp := w.Result()
 
@@ -44,6 +58,8 @@ func TestCreateReceiptSuccess(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 	assert.True(t, json.Valid(respBody))
-	_, err = uuid.Parse(gjson.Get(string(respBody), "id").String())
+	resId := gjson.Get(string(respBody), "id").String()
+	_, err = uuid.Parse(resId)
 	assert.NoError(t, err)
+	assert.Equal(t, mockResId, resId)
 }

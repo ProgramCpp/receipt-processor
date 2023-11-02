@@ -8,16 +8,26 @@ A webserver that accepts receipts and computes reward points.
 - go 1.20+
 
 ## build
-
-go build -o ./build/
+```
+make build
+```
 
 ## Test
-
-go test ./...
+- install mockery
+```
+make install-dep
+make mocks
+```
+- run tests
+```
+make test
+```
 
 ## run
 
+```
 ./build/receipt-processor
+```
 
 ## usage
 
