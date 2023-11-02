@@ -80,7 +80,7 @@ func (h Handler) Get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	points := points.Points(receipt)
+	points := points.NewEngine().Points(receipt)
 
 	// response is simple - for now - which can be handcoded into json
 	w.Write([]byte(fmt.Sprintf("{\"points\":\"%d\"}", points))) // status code is set sutomatically	

@@ -38,7 +38,7 @@ func TestCreateReceiptSuccess(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	mockResId := uuid.New().String()
-	mockDb.On("Insert", receipts.Receipt{
+	mockDb.On("Put", receipts.Receipt{
 		Retailer:     "abc",
 		PurchaseDate: test_utils.GetDate("2023-11-01"),
 		PurchaseTime: test_utils.GetTime("23:30"),
