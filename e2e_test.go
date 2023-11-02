@@ -93,3 +93,8 @@ func TestCreateReceiptFailureInvalidReceipt(t *testing.T){
 
 	assert.Equal(t, http.StatusBadRequest, res.StatusCode)
 }
+
+
+// GET success
+// GET no receipt found
+// GET samples
