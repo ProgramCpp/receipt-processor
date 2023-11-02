@@ -70,7 +70,7 @@ func (h Handler) Get(w http.ResponseWriter, r *http.Request) {
 
 	iReceipt, found := h.database.Get(id)
 	if !found {
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 

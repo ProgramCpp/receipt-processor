@@ -33,6 +33,7 @@ func (r Receipt) IsValid() bool {
 		return false
 	}
 
+	// no whitespaces
 	isMatch, err := regexp.MatchString("^\\S+$", r.Retailer)
 	if err != nil || !isMatch {
 		return false

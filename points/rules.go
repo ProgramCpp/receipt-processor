@@ -2,6 +2,7 @@ package points
 
 import (
 	"math"
+	"regexp"
 	"strings"
 	"time"
 
@@ -14,7 +15,9 @@ type Rule func(receipts.Receipt) int
 
 // One point for every alphanumeric character in the retailer name
 func RetailerRule(r receipts.Receipt) int {
-	return len(r.Retailer)
+	regEx, _ := regexp.Compile(`[^a-zA-Z0-9]+`)
+	saniRetailer := regEx.ReplaceAllString(r.Retailer, "")
+	return len(saniRetailer)
 }
 
 // 50 points if the total is a round dollar amount with no cents

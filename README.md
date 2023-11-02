@@ -115,9 +115,5 @@ Breakdown:
   = 109 points
 ```
 
-## future work
-- as more endpoints are added, use [OpenApi code generator](https://github.com/deepmap/oapi-codegen), to generate server boilerplate
-
-
 
 

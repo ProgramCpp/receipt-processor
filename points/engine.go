@@ -13,7 +13,15 @@ type Engine struct{
 // TODO: inject rules for testing the engine. add tests for the engine
 func NewEngine() Engine{
 	return Engine{
-		rules: []Rule{},
+		rules: []Rule{
+			RetailerRule,
+			RoundTotalRule,
+			MultipleTotalRule,
+			ItemCountRule,
+			ItemDescriptionRule,
+			PurchaseDateRule,
+			PurchaseTimeRule,
+		},
 	}
 }
 
