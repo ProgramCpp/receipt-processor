@@ -14,6 +14,9 @@ import (
 func TestRetailerRule(t *testing.T) {
 	assert.Equal(t, 3, points.RetailerRule(receipts.Receipt{Retailer: "abc"}))
 	assert.Equal(t, 4, points.RetailerRule(receipts.Receipt{Retailer: "abcd"}))
+	assert.Equal(t, 4, points.RetailerRule(receipts.Receipt{Retailer: "abc1"}))
+	assert.Equal(t, 3, points.RetailerRule(receipts.Receipt{Retailer: "abc#$%"}))
+	assert.Equal(t, 3, points.RetailerRule(receipts.Receipt{Retailer: "ab c"}))
 }
 
 func TestRoundTotalRule(t *testing.T) {
