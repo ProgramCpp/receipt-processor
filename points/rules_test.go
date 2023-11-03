@@ -21,7 +21,7 @@ func TestRetailerRule(t *testing.T) {
 
 func TestRoundTotalRule(t *testing.T) {
 	assert.Equal(t, 50, points.RoundTotalRule(receipts.Receipt{Total: 50}))
-	assert.Equal(t, 0, points.RetailerRule(receipts.Receipt{Total: 50.30}))
+	assert.Equal(t, 0, points.RoundTotalRule(receipts.Receipt{Total: 50.30}))
 }
 
 func TestMultipleTotalRule(t *testing.T) {
