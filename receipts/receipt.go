@@ -41,6 +41,7 @@ func (r Receipt) IsValid() bool {
 
 	// invalid date and time formats cannot be deserialized
 	// skipping validation
+	// no specific limitations on date and time
 
 	if len(r.Items) == 0 {
 		return false
