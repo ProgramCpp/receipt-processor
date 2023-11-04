@@ -9,6 +9,7 @@ the rules for awarding points to receipts are [here](./specification.md)
 
 ## pre-requisites
 - go 1.20+
+- docker 24+, for documentation hosting
 
 ## build
 ```
