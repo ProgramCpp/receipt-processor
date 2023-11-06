@@ -14,6 +14,8 @@ import (
 )
 
 type Handler struct {
+	// handler directly communicates with persistence layer
+	// since the business layer is lean
 	database db.Db
 }
 
